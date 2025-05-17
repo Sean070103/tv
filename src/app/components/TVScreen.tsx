@@ -1,100 +1,254 @@
-'use client';
+"use client";
 
-import React, { useState, useRef } from 'react';
-import YouTube, { YouTubePlayer } from 'react-youtube';
-import styles from './TVScreen.module.css';
+import React, { useState, useRef, useCallback } from "react";
+import YouTube, { YouTubePlayer } from "react-youtube";
+import styles from "./TVScreen.module.css";
 
-const CHANNELS = [
-  { ch: 4, videoId: 'Ayd8skzZU74' }, // original
-  { ch: 5, videoId: 'xGo9ny7G_j4' },
-  { ch: 6, videoId: 'iDCegwpnlbM' },
-  { ch: 7, videoId: 'xgq_fv1nrvQ' },
-  { ch: 8, videoId: 'WNumxta7z48' },
-  { ch: 9, videoId: 'zjuFxPxw0SQ' },
-  { ch: 10, videoId: '8dY_13bk0hs' },
-  { ch: 11, videoId: 'ue6Lieg7ZM4' },
-  { ch: 12, videoId: 'RW2fFdjfzOU' },
-  { ch: 13, videoId: 's32cDa5WFiI' },
-  { ch: 14, videoId: 'hETZMLyvNac', playlist: 'PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN' },
-  { ch: 15, videoId: 'V3ba6ZrBvVU' },
+interface Channel {
+  ch: number;
+  videoId: string;
+  playlist?: string | string[];
+}
+
+const CHANNELS: Channel[] = [
+  {
+    ch: 4,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 5,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 6,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 7,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 8,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 9,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 10,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 11,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 12,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 13,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 14,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 15,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 16,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
+  {
+    ch: 17,
+    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+  },
 ];
+
 const MIN_CHANNEL = CHANNELS[0].ch;
 const MAX_CHANNEL = CHANNELS[CHANNELS.length - 1].ch;
 const MIN_VOLUME = 0;
 const MAX_VOLUME = 20;
 
+type ChannelNumber = (typeof CHANNELS)[number]["ch"];
+
+type PlaybackMap = Record<ChannelNumber, number>;
+
 const TVScreen: React.FC = () => {
   const [powerOn, setPowerOn] = useState(true);
-  const [channel, setChannel] = useState(CHANNELS[0].ch);
+  const [channel, setChannel] = useState<ChannelNumber>(CHANNELS[0].ch);
   const [volume, setVolume] = useState(10);
-  const [playerReady, setPlayerReady] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isSwitching, setIsSwitching] = useState(false);
+  const [playbackMap, setPlaybackMap] = useState<PlaybackMap>(
+    {} as PlaybackMap
+  );
   const playerRef = useRef<YouTubePlayer | null>(null);
   const mountedRef = useRef(true);
+  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Save playback time every 2 seconds
   React.useEffect(() => {
-    mountedRef.current = true;
-    return () => { mountedRef.current = false; };
-  }, []);
+    if (!powerOn) return;
+    const interval = setInterval(async () => {
+      if (playerRef.current) {
+        try {
+          const time = await playerRef.current.getCurrentTime();
+          setPlaybackMap((prev) => ({ ...prev, [channel]: time }));
+        } catch {}
+      }
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [channel, powerOn]);
 
-  const handlePower = () => {
-    if (powerOn && playerRef.current) {
+  const onPlayerReady = useCallback(
+    (event: { target: YouTubePlayer }) => {
+      if (!powerOn || !mountedRef.current) return;
+      playerRef.current = event.target;
       try {
-        playerRef.current.pauseVideo();
+        event.target.unMute();
+        const resumeTime = playbackMap[channel] || 0;
+        event.target.seekTo(resumeTime, true);
+        event.target.playVideo();
+        event.target.setVolume(volume * 5);
       } catch {}
-      playerRef.current = null;
-      setPlayerReady(false);
+      setLoading(false);
+    },
+    [powerOn, volume, channel, playbackMap]
+  );
+
+  const handleChannelUp = useCallback(async () => {
+    if (isSwitching) return;
+    setIsSwitching(true);
+    if (playerRef.current) {
+      try {
+        const time = await playerRef.current.getCurrentTime();
+        setPlaybackMap((prev) => ({ ...prev, [channel]: time }));
+      } catch {}
     }
+    setChannel(
+      (ch) => (ch < MAX_CHANNEL ? ch + 1 : MIN_CHANNEL) as ChannelNumber
+    );
+    setLoading(true);
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+    }
+    loadingTimeoutRef.current = setTimeout(() => {
+      setIsSwitching(false);
+    }, 500);
+  }, [isSwitching, channel]);
+
+  const handleChannelDown = useCallback(async () => {
+    if (isSwitching) return;
+    setIsSwitching(true);
+    if (playerRef.current) {
+      try {
+        const time = await playerRef.current.getCurrentTime();
+        setPlaybackMap((prev) => ({ ...prev, [channel]: time }));
+      } catch {}
+    }
+    setChannel(
+      (ch) => (ch > MIN_CHANNEL ? ch - 1 : MAX_CHANNEL) as ChannelNumber
+    );
+    setLoading(true);
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+    }
+    loadingTimeoutRef.current = setTimeout(() => {
+      setIsSwitching(false);
+    }, 500);
+  }, [isSwitching, channel]);
+
+  const handlePower = useCallback(() => {
+    if (isSwitching) return;
+    setIsSwitching(true);
     setPowerOn((on) => !on);
     setLoading(true);
-  };
-  const handleChannelUp = () => {
-    setChannel((ch) => (ch < MAX_CHANNEL ? ch + 1 : MIN_CHANNEL));
-    setLoading(true);
-  };
-  const handleChannelDown = () => {
-    setChannel((ch) => (ch > MIN_CHANNEL ? ch - 1 : MAX_CHANNEL));
-    setLoading(true);
-  };
-  const handleVolumeUp = () => setVolume((v) => (v < MAX_VOLUME ? v + 1 : MAX_VOLUME));
-  const handleVolumeDown = () => setVolume((v) => (v > MIN_VOLUME ? v - 1 : MIN_VOLUME));
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+    }
+    loadingTimeoutRef.current = setTimeout(() => {
+      setIsSwitching(false);
+    }, 500);
+  }, [isSwitching]);
 
-  // Get the videoId for the current channel
-  const currentChannel = CHANNELS.find((c) => c.ch === channel) || CHANNELS[0];
-
-  // Sync volume with YouTube player
-  React.useEffect(() => {
-    if (powerOn && playerReady && playerRef.current) {
+  const handleVolumeUp = useCallback(() => {
+    if (isSwitching) return;
+    setVolume((v) => (v < MAX_VOLUME ? v + 1 : MAX_VOLUME));
+    if (playerRef.current) {
       try {
-        playerRef.current.setVolume(volume * 5); // YouTube volume is 0-100
+        playerRef.current.setVolume((volume + 1) * 5);
       } catch {}
     }
-  }, [volume, powerOn, playerReady]);
+  }, [isSwitching, volume]);
 
-  // When channel changes, cue the new video
-  React.useEffect(() => {
-    if (powerOn && playerReady && playerRef.current) {
+  const handleVolumeDown = useCallback(() => {
+    if (isSwitching) return;
+    setVolume((v) => (v > MIN_VOLUME ? v - 1 : MIN_VOLUME));
+    if (playerRef.current) {
       try {
+        playerRef.current.setVolume((volume - 1) * 5);
+      } catch {}
+    }
+  }, [isSwitching, volume]);
+
+  const onStateChange = useCallback(
+    (event: { data: number }) => {
+      if (event.data === 1) {
+        // Playing
+        setLoading(false);
+        setIsSwitching(false);
+      } else if (event.data === 0) {
+        // Ended
+        if (playerRef.current) {
+          try {
+            const currentChannel = CHANNELS.find((c) => c.ch === channel);
+            if (currentChannel?.playlist) {
+              playerRef.current.nextVideo();
+            } else {
+              playerRef.current.playVideo();
+            }
+          } catch {}
+        }
+      } else if (event.data === 3) {
+        // Buffering
         setLoading(true);
-        playerRef.current.cueVideoById(currentChannel.videoId);
-      } catch {}
-    }
-  }, [channel, powerOn, playerReady, currentChannel.videoId]);
+      }
+    },
+    [channel]
+  );
 
-  // Hide loading when video starts playing
-  const onPlayerReady = (event: { target: YouTubePlayer }) => {
-    if (!powerOn || !mountedRef.current) return;
-    playerRef.current = event.target;
-    setPlayerReady(true);
-    try {
-      event.target.setVolume(volume * 5);
-    } catch {}
-  };
-  const onStateChange = (event: { data: number }) => {
-    // 1 = playing, 2 = paused, 3 = buffering
-    if (event.data === 1) setLoading(false);
-    if (event.data === 3) setLoading(true);
-  };
+  React.useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "ArrowUp") {
+        handleChannelUp();
+      } else if (event.key === "ArrowDown") {
+        handleChannelDown();
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [handleChannelUp, handleChannelDown]);
+
+  const currentChannel = CHANNELS.find((c) => c.ch === channel);
 
   return (
     <div className={styles.tvContainer}>
@@ -108,10 +262,12 @@ const TVScreen: React.FC = () => {
                 {powerOn ? (
                   <>
                     <YouTube
-                      videoId={currentChannel.videoId}
+                      videoId={currentChannel?.videoId}
+                      onReady={onPlayerReady}
+                      onStateChange={onStateChange}
                       opts={{
-                        width: '100%',
-                        height: '100%',
+                        width: "100%",
+                        height: "100%",
                         playerVars: {
                           autoplay: 1,
                           controls: 0,
@@ -122,12 +278,26 @@ const TVScreen: React.FC = () => {
                           iv_load_policy: 3,
                           showinfo: 0,
                           playsinline: 1,
-                          ...(currentChannel.playlist ? { list: currentChannel.playlist, loop: 1 } : {}),
+                          preload: "auto",
+                          loop: 1,
+                          playlist: Array.isArray(currentChannel?.playlist)
+                            ? currentChannel.playlist.join(",")
+                            : currentChannel?.playlist ||
+                              currentChannel?.videoId,
                         },
                       }}
-                      onReady={onPlayerReady}
-                      onStateChange={onStateChange}
-                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none', zIndex: 1, borderRadius: 'inherit' }}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        border: "none",
+                        zIndex: 1,
+                        borderRadius: "inherit",
+                        opacity: loading ? 0 : 1,
+                        transition: "opacity 0.3s ease-in-out",
+                      }}
                       className="yt-embed"
                     />
                     {loading && (
@@ -138,8 +308,10 @@ const TVScreen: React.FC = () => {
                       </div>
                     )}
                     <div className={styles.screenOverlay}>
-                      <div>CH {channel.toString().padStart(2, '0')}</div>
-                      <div style={{fontSize: '1.1rem', fontWeight: 700}}>Volume: {volume}</div>
+                      <div>CH {channel.toString().padStart(2, "0")}</div>
+                      <div style={{ fontSize: "1.1rem", fontWeight: 700 }}>
+                        Volume: {volume}
+                      </div>
                     </div>
                   </>
                 ) : (
@@ -160,26 +332,78 @@ const TVScreen: React.FC = () => {
           </div>
           <div className={styles.buttonPanel}>
             <div className={styles.buttonWithLabel}>
-              <button className={styles.panelBtn} aria-label="Power" onClick={handlePower} style={{outline: 'none', cursor: 'pointer'}}></button>
+              <button
+                className={styles.panelBtn}
+                aria-label="Power"
+                onClick={handlePower}
+                style={{
+                  outline: "none",
+                  cursor: isSwitching ? "not-allowed" : "pointer",
+                  opacity: isSwitching ? 0.5 : 1,
+                }}
+                disabled={isSwitching}
+              ></button>
               <span className={styles.buttonLabel}>Power</span>
             </div>
             <div className={styles.buttonWithLabel}>
-              <button className={styles.panelBtn} aria-label="Channel Down" onClick={handleChannelDown} style={{outline: 'none', cursor: 'pointer'}}></button>
+              <button
+                className={styles.panelBtn}
+                aria-label="Channel Down"
+                onClick={handleChannelDown}
+                style={{
+                  outline: "none",
+                  cursor: isSwitching ? "not-allowed" : "pointer",
+                  opacity: isSwitching ? 0.5 : 1,
+                }}
+                disabled={isSwitching}
+              ></button>
               <span className={styles.buttonLabel}>CH-</span>
             </div>
             <div className={styles.buttonWithLabel}>
-              <button className={`${styles.panelBtn} ${styles.oval}`} aria-label="Channel Up" onClick={handleChannelUp} style={{outline: 'none', cursor: 'pointer'}}></button>
+              <button
+                className={`${styles.panelBtn} ${styles.oval}`}
+                aria-label="Channel Up"
+                onClick={handleChannelUp}
+                style={{
+                  outline: "none",
+                  cursor: isSwitching ? "not-allowed" : "pointer",
+                  opacity: isSwitching ? 0.5 : 1,
+                }}
+                disabled={isSwitching}
+              ></button>
               <span className={styles.buttonLabel}>CH+</span>
             </div>
             <div className={styles.buttonWithLabel}>
-              <button className={styles.panelBtn} aria-label="Volume Down" onClick={handleVolumeDown} style={{outline: 'none', cursor: 'pointer'}}></button>
+              <button
+                className={styles.panelBtn}
+                aria-label="Volume Down"
+                onClick={handleVolumeDown}
+                style={{
+                  outline: "none",
+                  cursor: isSwitching ? "not-allowed" : "pointer",
+                  opacity: isSwitching ? 0.5 : 1,
+                }}
+                disabled={isSwitching}
+              ></button>
               <span className={styles.buttonLabel}>VOL-</span>
             </div>
             <div className={styles.buttonWithLabel}>
-              <button className={styles.panelBtn} aria-label="Volume Up" onClick={handleVolumeUp} style={{outline: 'none', cursor: 'pointer'}}></button>
+              <button
+                className={styles.panelBtn}
+                aria-label="Volume Up"
+                onClick={handleVolumeUp}
+                style={{
+                  outline: "none",
+                  cursor: isSwitching ? "not-allowed" : "pointer",
+                  opacity: isSwitching ? 0.5 : 1,
+                }}
+                disabled={isSwitching}
+              ></button>
               <span className={styles.buttonLabel}>VOL+</span>
             </div>
-            <span className={`${styles.powerLED} ${!powerOn ? styles.off : ''}`}></span>
+            <span
+              className={`${styles.powerLED} ${!powerOn ? styles.off : ""}`}
+            ></span>
           </div>
         </div>
       </div>
@@ -187,4 +411,4 @@ const TVScreen: React.FC = () => {
   );
 };
 
-export default TVScreen; 
+export default TVScreen;
