@@ -1,0 +1,539 @@
+.tvContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #222 0%, #444 100%);
+  padding: 2rem;
+}
+
+.tvBody {
+  position: relative;
+  width: 900px;
+  height: 600px;
+  perspective: 1200px;
+  z-index: 1;
+  filter: drop-shadow(0 24px 32px #000a);
+}
+
+.tvOuter {
+  background: linear-gradient(160deg, #222 60%, #111 100%);
+  border-radius: 32px 32px 40px 40px;
+  box-shadow:
+    0 8px 40px #000a,
+    0 2px 0 #222 inset,
+    0 0 0 8px #111 inset,
+    0 0 0 16px #222 inset;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 900px;
+  height: 600px;
+  z-index: 2;
+}
+
+.tvBezel {
+  background: linear-gradient(180deg, #222 80%, #111 100%);
+  border-radius: 18px 18px 28px 28px;
+  box-shadow:
+    0 0 0 12px #111,
+    0 0 0 20px #222,
+    0 2px 12px #222 inset,
+    0 8px 24px #111 inset;
+  padding: 36px 60px 0 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 900px;
+  height: 520px;
+  z-index: 3;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.speakerSide {
+  width: 60px;
+  height: 100%;
+  background:
+    repeating-radial-gradient(circle at 8px 8px, #333 0 1px, #222 1.5px 8px),
+    linear-gradient(180deg, #222 60%, #111 100%);
+  border-radius: 12px 0 18px 0 / 18px 0 28px 0;
+  margin-right: 16px;
+  margin-left: 0;
+  opacity: 0.7;
+  box-shadow: 2px 0 8px #0008;
+  background-size: 16px 16px, 100% 100%;
+  background-repeat: repeat;
+}
+.speakerSide.right {
+  margin-left: 16px;
+  margin-right: 0;
+  border-radius: 0 12px 0 18px / 0 18px 0 28px;
+  box-shadow: -2px 0 8px #0008;
+}
+
+.tvFrame {
+  background: #111;
+  border-radius: 12px 12px 24px 24px;
+  box-shadow: 0 0 40px #000a inset, 0 0 0 2px #222, 0 0 0 8px #222 inset;
+  position: relative;
+  padding: 0;
+  width: 700px;
+  height: 420px;
+  margin: 0 auto;
+  flex-shrink: 0;
+  border: 4px solid #222;
+}
+
+.tvScreen {
+  background: radial-gradient(ellipse 120% 100% at 50% 60%, #222 60%, #111 100%);
+  border: 6px solid #333;
+  border-radius: 18px 18px 36px 36px / 24px 24px 48px 48px;
+  width: 680px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 40px #000a inset,
+    0 0 0 2px #111,
+    0 8px 32px #0008 inset;
+  margin: 0 auto;
+}
+
+/* Curved glass reflection */
+.tvScreen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.13) 10%, transparent 60%),
+    radial-gradient(ellipse 80% 30% at 60% 0%, rgba(255,255,255,0.10) 0%, transparent 100%),
+    radial-gradient(ellipse 100% 100% at 50% 60%, transparent 60%, rgba(0,0,0,0.28) 100%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Scanlines */
+.tvScreen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.04) 0px,
+      rgba(255,255,255,0.04) 2px,
+      transparent 2px,
+      transparent 6px
+    ),
+    radial-gradient(ellipse 100% 100% at 50% 60%, transparent 60%, rgba(0,0,0,0.28) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.buttonPanel {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 18px;
+  z-index: 10;
+}
+
+.buttonWithLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonLabel {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #bdbdbd;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px #000a;
+  user-select: none;
+  pointer-events: none;
+}
+
+.panelBtn {
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(180deg, #444 60%, #111 100%);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px #000a, 0 1px 0 #2228 inset;
+  border: 2px solid #222;
+  transition: box-shadow 0.2s;
+}
+
+.panelBtn.oval {
+  width: 32px;
+  height: 22px;
+  border-radius: 14px / 10px;
+}
+
+.panelBtn:active {
+  box-shadow: 0 1px 2px #000a, 0 0px 0 #2228 inset;
+}
+
+.powerLED {
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 60% 40%, #0f0 70%, #070 100%);
+  border-radius: 50%;
+  margin-left: 10px;
+  box-shadow: 0 0 8px #0f0a, 0 0 2px #fff8 inset;
+  border: 1px solid #222;
+}
+
+.powerLED.off {
+  background: radial-gradient(circle at 60% 40%, #222 70%, #111 100%);
+  box-shadow: 0 0 2px #222, 0 0 2px #fff8 inset;
+}
+
+.tvLogo {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fcd116;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  opacity: 0.98;
+  user-select: none;
+  z-index: 8;
+  text-shadow: 0 2px 4px #0033a0, 0 1px 0 #ce1126, 0 0 8px #fff;
+  filter: brightness(1.2) contrast(1.2);
+}
+
+.content {
+  color: #eaeaea;
+  text-align: center;
+  z-index: 5;
+  text-shadow: 0 2px 8px #000a, 0 1px 0 #333;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+}
+
+.content h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1.2rem;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  letter-spacing: 2px;
+  color: #eaeaea;
+  text-shadow: 0 2px 8px #000a, 0 1px 0 #333, 0 2px 4px #222;
+}
+
+.content p {
+  font-size: 1.3rem;
+  opacity: 0.9;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  color: #eaeaea;
+}
+
+/* Animated clouds */
+.cloud {
+  position: absolute;
+  bottom: 60%;
+  left: 10%;
+  width: 120px;
+  height: 60px;
+  background: #fff;
+  border-radius: 60px 60px 60px 60px / 40px 40px 40px 40px;
+  box-shadow: 60px 0 0 0 #fff, 30px 10px 0 0 #fff, 90px 10px 0 0 #fff;
+  opacity: 0.8;
+  animation: cloudMove 18s linear infinite;
+}
+.cloud2 {
+  left: 60%;
+  bottom: 70%;
+  width: 90px;
+  height: 40px;
+  box-shadow: 45px 0 0 0 #fff, 20px 10px 0 0 #fff, 70px 10px 0 0 #fff;
+  opacity: 0.7;
+  animation-duration: 24s;
+}
+.cloud3 {
+  left: 30%;
+  bottom: 80%;
+  width: 70px;
+  height: 30px;
+  box-shadow: 35px 0 0 0 #fff, 15px 8px 0 0 #fff, 55px 8px 0 0 #fff;
+  opacity: 0.6;
+  animation-duration: 30s;
+}
+@keyframes cloudMove {
+  0% { left: -20%; }
+  100% { left: 110%; }
+}
+
+.screenOverlay {
+  position: absolute;
+  top: 18px;
+  right: 28px;
+  z-index: 10;
+  color: #fff;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: right;
+  text-shadow: 0 2px 8px #0033a0, 0 1px 0 #fcd116;
+  pointer-events: none;
+  line-height: 1.2;
+}
+
+.screenOverlay .mabuhay {
+  color: #fcd116;
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px #0033a0, 0 1px 0 #fff;
+  margin-bottom: 0.2em;
+  display: block;
+}
+
+.ytOverlayTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(20,20,20,0.95) 80%, rgba(20,20,20,0.0) 100%);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ytOverlayBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(to top, rgba(20,20,20,0.95) 80%, rgba(20,20,20,0.0) 100%);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20,20,20,0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.loadingSpinner {
+  width: 56px;
+  height: 56px;
+  border: 6px solid #fff;
+  border-top: 6px solid #888;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 18px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+  color: #fff;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #000a;
+  animation: blink 1.2s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+.signalSearchOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20,20,20,0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.signalText {
+  color: #fff;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-shadow: 0 4px 16px #000, 0 2px 8px #fff, 0 0 8px #0ff;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.signalDots {
+  display: inline-block;
+  font-size: 2.2rem;
+  letter-spacing: 0.2em;
+  animation: signalDotsBlink 1.2s steps(4, start) infinite;
+}
+
+@keyframes signalDotsBlink {
+  0% { opacity: 1; }
+  25% { opacity: 0.7; }
+  50% { opacity: 0.4; }
+  75% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.signalScanBar {
+  width: 70%;
+  height: 16px;
+  background: linear-gradient(90deg, #fff 0%, #0ff 60%, #00f6ff 100%);
+  border-radius: 8px;
+  margin-top: 18px;
+  opacity: 0.95;
+  animation: scanBarMove 1.2s linear infinite;
+  box-shadow: 0 0 24px #0ff, 0 0 8px #fff;
+}
+
+@keyframes scanBarMove {
+  0% { transform: translateX(-60%); }
+  100% { transform: translateX(60%); }
+}
+
+.staticScreen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #222;
+  overflow: hidden;
+}
+
+.staticNoise {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+  background-size: 120px 120px;
+  opacity: 0.7;
+  animation: staticAnim 0.3s steps(2) infinite;
+}
+
+.staticColorNoise {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: repeating-linear-gradient(90deg, rgba(0,255,255,0.08) 0 2px, rgba(255,0,255,0.08) 2px 4px, rgba(255,255,0,0.08) 4px 6px, transparent 6px 12px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 11;
+  mix-blend-mode: lighten;
+  animation: colorNoiseAnim 0.5s steps(2) infinite;
+}
+
+@keyframes staticAnim {
+  0% { filter: brightness(1) contrast(1.2); }
+  50% { filter: brightness(1.2) contrast(1.5); }
+  100% { filter: brightness(1) contrast(1.2); }
+}
+
+@keyframes colorNoiseAnim {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.5; }
+}
+
+.noSignalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(40,40,40,0.7);
+  border: 2px solid #fff;
+  border-radius: 10px;
+  padding: 18px 38px;
+  color: #fff;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow: 0 2px 8px #000a;
+  z-index: 20;
+  box-shadow: 0 2px 16px #000a;
+  user-select: none;
+  animation: blinkNoSignal 1.1s steps(2, start) infinite;
+}
+
+@keyframes blinkNoSignal {
+  0% { opacity: 1; color: #fff; }
+  50% { opacity: 0.5; color: #0ff; }
+  100% { opacity: 1; color: #fff; }
+}
+
+.phFlagBar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 18px;
+  z-index: 120;
+  display: flex;
+}
+.phFlagBar .phBlue { flex: 1; background: #0033a0; }
+.phFlagBar .phRed { flex: 1; background: #ce1126; }
+.phFlagBar .phYellow {
+  width: 36px;
+  background: #fcd116;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.phSun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  opacity: 0.10;
+  pointer-events: none;
+  background: url('data:image/svg+xml;utf8,<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg"><g fill="%23fcd116"><circle cx="60" cy="60" r="28"/><g><rect x="58" y="10" width="4" height="20"/><rect x="58" y="90" width="4" height="20"/><rect x="10" y="58" width="20" height="4"/><rect x="90" y="58" width="20" height="4"/><rect x="25" y="25" width="4" height="20" transform="rotate(-45 27 35)"/><rect x="91" y="25" width="4" height="20" transform="rotate(45 93 35)"/><rect x="25" y="91" width="4" height="20" transform="rotate(45 27 101)"/><rect x="91" y="91" width="4" height="20" transform="rotate(-45 93 101)"/></g></g></svg>') center/contain no-repeat;
+} 
