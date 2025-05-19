@@ -611,45 +611,95 @@
 @media (max-width: 500px) {
   .tvBody, .tvOuter {
     width: 100vw !important;
-    height: 70vw !important;
-    min-width: 180px;
-    min-height: 120px;
+    height: 80vw !important;
+    min-width: 140px;
+    min-height: 100px;
   }
   .tvBezel {
     width: 100vw !important;
-    height: 60vw !important;
-    padding: 6px 2vw 0 2vw !important;
+    height: 70vw !important;
+    padding: 4px 1vw 0 1vw !important;
   }
   .tvFrame {
-    width: 90vw !important;
-    height: 44vw !important;
+    width: 96vw !important;
+    height: 50vw !important;
   }
   .tvScreen {
-    width: 87vw !important;
-    height: 42vw !important;
+    width: 93vw !important;
+    height: 48vw !important;
   }
   .phSun {
-    width: 28px !important;
-    height: 28px !important;
+    width: 18px !important;
+    height: 18px !important;
   }
   .screenOverlay {
-    font-size: 0.8rem !important;
-    right: 4px !important;
-    top: 2px !important;
+    font-size: 0.7rem !important;
+    right: 2px !important;
+    top: 1px !important;
   }
   .noSignalBox {
-    font-size: 0.7rem !important;
-    padding: 6px 10px !important;
+    font-size: 0.6rem !important;
+    padding: 4px 6px !important;
   }
   .buttonPanel {
-    gap: 4px !important;
-    bottom: 2px !important;
+    gap: 2px !important;
+    bottom: 1px !important;
   }
   .panelBtn, .panelBtn.oval {
-    width: 10px !important;
-    height: 10px !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
   }
   .buttonLabel {
+    font-size: 0.5rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .tvBody, .tvOuter {
+    width: 100vw !important;
+    height: 90vw !important;
+    min-width: 100px;
+    min-height: 80px;
+  }
+  .tvBezel {
+    width: 100vw !important;
+    height: 80vw !important;
+    padding: 2px 0.5vw 0 0.5vw !important;
+  }
+  .tvFrame {
+    width: 99vw !important;
+    height: 60vw !important;
+  }
+  .tvScreen {
+    width: 97vw !important;
+    height: 58vw !important;
+  }
+  .phSun {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .screenOverlay {
     font-size: 0.6rem !important;
+    right: 1px !important;
+    top: 1px !important;
+  }
+  .noSignalBox {
+    font-size: 0.5rem !important;
+    padding: 2px 4px !important;
+  }
+  .buttonPanel {
+    gap: 1px !important;
+    bottom: 0px !important;
+  }
+  .panelBtn, .panelBtn.oval {
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+  }
+  .buttonLabel {
+    font-size: 0.4rem !important;
   }
 } 

@@ -13,74 +13,34 @@ interface Channel {
 const CHANNELS: Channel[] = [
   {
     ch: 4,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    videoId: "Mxv5h-RZWVs", // Basketball playlist - first video
+    playlist: "Mxv5h-RZWVs,uqf13CnVVSo,UKvcGBlV2iA,7CyFymdSZ2E", // Basketball playlist
   },
   {
     ch: 5,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    videoId: "VlPsZzVPbXk", // Myx PH playlist - first video
+    playlist: "VlPsZzVPbXk,xgq_fv1nrvQ,8JebJIbCeO8", // Myx PH playlist
   },
   {
     ch: 6,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    videoId: "Smh_SorjozU", // Cartoons channel - first video
+    playlist: "Smh_SorjozU", // Cartoons playlist (single video for now)
   },
   {
     ch: 7,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    videoId: "jTAHebEVEPI", // Fish Hooks
+    playlist: "jTAHebEVEPI",
   },
   {
     ch: 8,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
+    videoId: "xgq_fv1nrvQ", // New channel
+    playlist: "xgq_fv1nrvQ",
   },
   {
     ch: 9,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 10,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 11,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 12,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 13,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 14,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 15,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 16,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
-  {
-    ch: 17,
-    videoId: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-    playlist: "PLH4KMG-7qrJd_eU6b9v4N01eVVZaRUoPN",
-  },
+    videoId: "_nb2wqB1vSY", // New channel
+    playlist: "_nb2wqB1vSY",
+  }
 ];
 
 const MIN_CHANNEL = CHANNELS[0].ch;
