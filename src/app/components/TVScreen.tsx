@@ -211,8 +211,8 @@ const TVScreen: React.FC = () => {
   const currentChannel = CHANNELS.find((c) => c.ch === channel);
 
   return (
-    <div className={styles.tvContainer}>
-      <div className={styles.tvBody}>
+    <div className={"flex justify-center items-center min-h-screen bg-black w-full"}>
+      <div className={styles.tvBody + " w-full max-w-[600px] aspect-[16/9] min-w-0 overflow-hidden sm:max-w-[98vw] sm:aspect-[16/9]"}>
         <div className={styles.tvOuter}>
           <div className={styles.tvBezel}>
             <div className={styles.speakerSide}></div>
@@ -242,53 +242,31 @@ const TVScreen: React.FC = () => {
                           loop: 1,
                           playlist: Array.isArray(currentChannel?.playlist)
                             ? currentChannel.playlist.join(",")
-                            : currentChannel?.playlist ||
-                              currentChannel?.videoId,
+                            : currentChannel?.playlist || currentChannel?.videoId,
                         },
                       }}
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        border: "none",
-                        zIndex: 1,
-                        borderRadius: "inherit",
-                        opacity: loading ? 0 : 1,
-                        transition: "opacity 0.3s ease-in-out",
-                      }}
-                      className="yt-embed"
+                      className="absolute top-0 left-0 w-full h-full border-none z-10 rounded-2xl transition-opacity duration-300"
+                      style={{ opacity: loading ? 0 : 1 }}
                     />
                     {loading && (
-                      <div className={styles.staticScreen}>
-                        <div className={styles.staticNoise}></div>
-                        <div className={styles.staticColorNoise}></div>
-                        <div className={styles.noSignalBox}>NO SIGNAL</div>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900/80 z-20">
+                        <div className="w-16 h-16 border-4 border-white border-t-zinc-400 rounded-full animate-spin mb-4" />
+                        <div className="text-white text-lg font-bold animate-pulse">NO SIGNAL</div>
                       </div>
                     )}
-                    <div className={styles.screenOverlay}>
+                    <div className="absolute top-4 right-4 z-30 text-white text-right font-black text-xl sm:text-base">
                       <div>CH {channel.toString().padStart(2, "0")}</div>
-                      <div style={{ fontSize: "1.1rem", fontWeight: 700 }}>
-                        Volume: {volume}
-                      </div>
+                      <div className="font-bold">Volume: {volume}</div>
                     </div>
                   </>
                 ) : (
-                  <div className={styles.staticScreen}>
-                    <div className={styles.staticNoise}></div>
-                    <div className={styles.staticColorNoise}></div>
-                    <div className={styles.noSignalBox}>NO SIGNAL</div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900/80 z-20">
+                    <div className="w-16 h-16 border-4 border-white border-t-zinc-400 rounded-full animate-spin mb-4" />
+                    <div className="text-white text-lg font-bold animate-pulse">NO SIGNAL</div>
                   </div>
                 )}
               </div>
             </div>
-            <div className={`${styles.speakerSide} ${styles.right}`}></div>
-          </div>
-          <div className={styles.phFlagBar}>
-            <div className="phBlue"></div>
-            <div className="phRed"></div>
-            <div className="phYellow"></div>
           </div>
           <div className={styles.buttonPanel}>
             <div className={styles.buttonWithLabel}>

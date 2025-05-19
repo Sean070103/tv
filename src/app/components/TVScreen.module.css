@@ -565,37 +565,45 @@
 @media (max-width: 800px) {
   .tvBody, .tvOuter {
     width: 98vw !important;
-    height: 60vw !important;
-    min-width: 260px;
+    aspect-ratio: 16/9 !important;
+    min-width: 280px;
     min-height: 180px;
+    height: auto !important;
   }
   .tvBezel {
     width: 98vw !important;
-    height: 52vw !important;
+    aspect-ratio: 16/9 !important;
     padding: 12px 8vw 0 8vw !important;
+    height: auto !important;
   }
   .tvFrame {
     width: 70vw !important;
-    height: 36vw !important;
+    aspect-ratio: 16/9 !important;
+    min-width: 220px;
+    min-height: 124px;
+    height: auto !important;
   }
   .tvScreen {
     width: 67vw !important;
-    height: 34vw !important;
+    aspect-ratio: 16/9 !important;
+    min-width: 210px;
+    min-height: 118px;
+    height: auto !important;
   }
   .phSun {
     width: 48px !important;
     height: 48px !important;
   }
   .screenOverlay {
-    font-size: 1.1rem !important;
+    font-size: clamp(0.9rem, 2vw, 1.1rem) !important;
     right: 10px !important;
     top: 8px !important;
   }
   .screenOverlay .buttonLabel {
-    font-size: 0.7rem !important;
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem) !important;
   }
   .noSignalBox {
-    font-size: 1.1rem !important;
+    font-size: clamp(0.9rem, 2vw, 1.1rem) !important;
     padding: 10px 18px !important;
   }
   .buttonPanel {
@@ -603,103 +611,121 @@
     bottom: 10px !important;
   }
   .panelBtn, .panelBtn.oval {
-    width: 16px !important;
-    height: 16px !important;
+    width: clamp(32px, 5vw, 40px) !important;
+    height: clamp(32px, 5vw, 40px) !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
   }
 }
 
 @media (max-width: 500px) {
   .tvBody, .tvOuter {
     width: 100vw !important;
-    height: 80vw !important;
-    min-width: 140px;
-    min-height: 100px;
+    aspect-ratio: 16/9 !important;
+    min-width: 280px;
+    min-height: 180px;
+    height: auto !important;
   }
   .tvBezel {
     width: 100vw !important;
-    height: 70vw !important;
+    aspect-ratio: 16/9 !important;
     padding: 4px 1vw 0 1vw !important;
+    height: auto !important;
   }
   .tvFrame {
     width: 96vw !important;
-    height: 50vw !important;
+    aspect-ratio: 16/9 !important;
+    min-width: 220px;
+    min-height: 124px;
+    height: auto !important;
   }
   .tvScreen {
     width: 93vw !important;
-    height: 48vw !important;
+    aspect-ratio: 16/9 !important;
+    min-width: 210px;
+    min-height: 118px;
+    height: auto !important;
   }
   .phSun {
-    width: 18px !important;
-    height: 18px !important;
+    width: 28px !important;
+    height: 28px !important;
   }
   .screenOverlay {
-    font-size: 0.7rem !important;
+    font-size: clamp(0.7rem, 2vw, 0.9rem) !important;
     right: 2px !important;
     top: 1px !important;
   }
   .noSignalBox {
-    font-size: 0.6rem !important;
-    padding: 4px 6px !important;
+    font-size: clamp(0.7rem, 2vw, 0.9rem) !important;
+    padding: 6px 10px !important;
   }
   .buttonPanel {
-    gap: 2px !important;
-    bottom: 1px !important;
+    gap: 6px !important;
+    bottom: 4px !important;
   }
   .panelBtn, .panelBtn.oval {
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 18px !important;
-    min-height: 18px !important;
+    width: clamp(32px, 7vw, 40px) !important;
+    height: clamp(32px, 7vw, 40px) !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
   }
   .buttonLabel {
-    font-size: 0.5rem !important;
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem) !important;
   }
 }
 
 @media (max-width: 400px) {
   .tvBody, .tvOuter {
     width: 100vw !important;
-    height: 90vw !important;
-    min-width: 100px;
-    min-height: 80px;
+    aspect-ratio: 16/9 !important;
+    min-width: 220px;
+    min-height: 124px;
+    height: auto !important;
   }
   .tvBezel {
     width: 100vw !important;
-    height: 80vw !important;
+    aspect-ratio: 16/9 !important;
     padding: 2px 0.5vw 0 0.5vw !important;
+    height: auto !important;
   }
   .tvFrame {
     width: 99vw !important;
-    height: 60vw !important;
+    aspect-ratio: 16/9 !important;
+    min-width: 200px;
+    min-height: 112px;
+    height: auto !important;
   }
   .tvScreen {
     width: 97vw !important;
-    height: 58vw !important;
+    aspect-ratio: 16/9 !important;
+    min-width: 190px;
+    min-height: 106px;
+    height: auto !important;
   }
   .phSun {
     width: 12px !important;
     height: 12px !important;
   }
   .screenOverlay {
-    font-size: 0.6rem !important;
+    font-size: clamp(0.7rem, 2vw, 0.8rem) !important;
     right: 1px !important;
     top: 1px !important;
   }
   .noSignalBox {
-    font-size: 0.5rem !important;
-    padding: 2px 4px !important;
+    font-size: clamp(0.7rem, 2vw, 0.8rem) !important;
+    padding: 4px 6px !important;
   }
   .buttonPanel {
-    gap: 1px !important;
-    bottom: 0px !important;
+    gap: 4px !important;
+    bottom: 2px !important;
   }
   .panelBtn, .panelBtn.oval {
-    width: 14px !important;
-    height: 14px !important;
-    min-width: 14px !important;
-    min-height: 14px !important;
+    width: clamp(32px, 10vw, 36px) !important;
+    height: clamp(32px, 10vw, 36px) !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
   }
   .buttonLabel {
-    font-size: 0.4rem !important;
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem) !important;
   }
 } 
